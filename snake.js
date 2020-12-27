@@ -1,5 +1,5 @@
 class Snake {
-    static maxvel = 2;
+    static maxvel = 10;
 
     constructor() {
         this.posx = 100;
@@ -20,8 +20,8 @@ class Snake {
 
         if (this.posy > GAME_HEIGHT) this.posy = 0 - this.size;
         if (this.posy + this.size < 0) this.posy = GAME_HEIGHT;
-   
-        if (this.posx % 5 == 0 && this.posy % 5 == 0) {
+
+        if (this.posx % 20 == 0 && this.posy % 20 == 0) {
             this.dir = this.nextdir;
             switch (this.dir) {
                 case "up":
@@ -47,7 +47,19 @@ class Snake {
         this.posy += this.vely;
     }
 
-    draw() {
-        rect(this.posx, this.posy, this.size, this.size);
+    draw(i) {
+        if (i == 0) {
+            fill(255, 0, 0);
+            rect(this.posx, this.posy, this.size, this.size);
+        }
+        else {
+            fill(255);
+            rect(this.posx, this.posy, this.size, this.size);
+        }
+    }
+
+    static addbit() {
+        snakebit = new Snake();
+        snake.push(snakebit);
     }
 }
