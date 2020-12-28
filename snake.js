@@ -1,65 +1,86 @@
 class Snake {
-    static maxvel = 10;
 
-    constructor() {
-        this.posx = 100;
-        this.posy = 100;
+    constructor(posx, posy) {
+        this.posX = posx;
+        this.posY = posy;
         this.size = 10;
 
-        this.velx = 0;
-        this.vely = 0;
+        this.velX = 0;
+        this.velY = 0;
 
         this.dir = "";
-        this.nextdir = "";
+        this.nextDir = "";
     }
 
     update() {
 
-        if (this.posx > GAME_WIDTH) this.posx = 0 - this.size;
-        if (this.posx + this.size < 0) this.posx = GAME_WIDTH;
-
-        if (this.posy > GAME_HEIGHT) this.posy = 0 - this.size;
-        if (this.posy + this.size < 0) this.posy = GAME_HEIGHT;
-
-        if (this.posx % 20 == 0 && this.posy % 20 == 0) {
-            this.dir = this.nextdir;
+        if (this.posX % 10 == 0 && this.posY % 10 == 0) {
+            this.dir = this.nextDir;
             switch (this.dir) {
                 case "up":
-                    this.velx = 0;
-                    this.vely = -Snake.maxvel;
+                    this.velX = 0;
+                    this.velY = -Snake.maxVel;
                     break;
                 case "down":
-                    this.velx = 0;
-                    this.vely = Snake.maxvel;
+                    this.velX = 0;
+                    this.velY = Snake.maxVel;
                     break;
                 case "right":
-                    this.velx = Snake.maxvel;
-                    this.vely = 0;
+                    this.velX = Snake.maxVel;
+                    this.velY = 0;
                     break;
                 case "left":
-                    this.velx = -Snake.maxvel;
-                    this.vely = 0;
+                    this.velX = -Snake.maxVel;
+                    this.velY = 0;
                     break;
             }
         }
 
-        this.posx += this.velx;
-        this.posy += this.vely;
+        this.posX += this.velX;
+        this.posY += this.velY;
+
+        if (borderTp) {
+            this.posX = (this.posX + width) % width;
+            this.posY = (this.posY + height) % height;
+            
+            document.getElementById("borderTpToggle").value="Walkthrough borders: on";
+        } else {
+            if (this.posX < 0 || this.posX > width || this.posY < 0 || this.posY > height) {
+                alert("You hit a wall! You lost!");
+                restart();
+            }
+            document.getElementById("borderTpToggle").value="Walkthrough borders: off";
+        }
+
+        for (let i = 1; i < snake.length; i++) if (this.posX == snake[i].posX && this.posY == snake[i].posY) {
+            alert("Halt stop");
+            restart();
+        }
+        for (let i = 0; i < food.length; i++) {
+            if (this.posX == food[i].posX && this.posY == food[i].posY) {
+                food[i] = new Food();
+                Snake.addbit();
+                Snake.addbit();
+                score++;
+            }
+        }
     }
 
     draw(i) {
         if (i == 0) {
             fill(255, 0, 0);
-            rect(this.posx, this.posy, this.size, this.size);
+            rect(this.posX, this.posY, this.size, this.size);
         }
         else {
             fill(255);
-            rect(this.posx, this.posy, this.size, this.size);
+            rect(this.posX, this.posY, this.size, this.size);
         }
     }
 
     static addbit() {
-        snakebit = new Snake();
+        snakebit = new Snake(snake[snake.length - 1].posX, snake[snake.length - 1].posY);
         snake.push(snakebit);
     }
 }
+
+Snake.maxVel = 10;
