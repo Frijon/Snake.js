@@ -7,8 +7,14 @@
   </head>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+    <script src="food.js"></script>
     <script src="input.js"></script>
     <script src="snake.js"></script>
     <script src="script.js"></script>
-</body>
+    <input id="startStopButton" type="button" value="Stop" onclick="toggleLoop();" />
+    <input id="restartButton" type="button" value="Restart" onclick="restart();" />
+    <input id="borderTpToggle" type="button" value="Walkthrough borders: off" onclick="toggleBorders();" />
+    <p id="tutorial" style="font-family: nunito, sans-serif; font-size: 16px">The Snake game. Move with the arrow keys, collect the green dots, you know how it goes.</p>
+    <p id="score" style="font-family: nunito, sans-serif; font-size: 16px">Score:</p>
+  </body>
 </html>
